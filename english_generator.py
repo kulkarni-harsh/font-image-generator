@@ -70,4 +70,6 @@ if str(input('>>> Augment the images?? (Y/N)   : ')).upper()=='Y':
         generator.next()
 else:
     pass
+
+shutil.make_archive('dataset', 'zip', 'dataset')
 print("We are Done")
