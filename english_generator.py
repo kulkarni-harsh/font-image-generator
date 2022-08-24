@@ -42,30 +42,34 @@ for char in COMBINED:
     count=0
     os.mkdir(f'dataset/{char}')
     for font_path in font_paths:
+        font_name=font_path.split('/')[-1][:-4]
         base_image=Image.open('base_image.png')
         font_style = ImageFont.truetype(font_path, FONT_SIZE)
         base_image=center_text(base_image,font_style,char)
-        base_image.save(f'dataset/{char}/{count}.png')
+        base_image.save(f'dataset/{char}/{font_name}.png')
         count+=1
         
 
 ## Adding Augmented Images
-image_paths=list(map(str,list(pathlib.Path('dataset').glob('*'))))
-for image_path in image_paths:
-    char=image_path.split('/')[-1]
-    datagen=ImageDataGenerator(
-    rotation_range=5,
-    width_shift_range=0.05,
-    height_shift_range=0.05,
-    shear_range=0.05,
-    zoom_range=0.05,
-    )
-    generator=datagen.flow_from_directory('dataset',
-    classes=[char],
-    save_format='png',
-    save_to_dir=image_path,
-    batch_size=64,
-    target_size=IMAGE_SHAPE,)
-    generator.next()
-    generator.next()
+if str(input('>>> Augment the images?? (Y/N)   : ')).upper()=='Y':
+    image_paths=list(map(str,list(pathlib.Path('dataset').glob('*'))))
+    for image_path in image_paths:
+        char=image_path.split('/')[-1]
+        datagen=ImageDataGenerator(
+        rotation_range=5,
+        width_shift_range=0.05,
+        height_shift_range=0.05,
+        shear_range=0.05,
+        zoom_range=0.05,
+        )
+        generator=datagen.flow_from_directory('dataset',
+        classes=[char],
+        save_format='png',
+        save_to_dir=image_path,
+        batch_size=64,
+        target_size=IMAGE_SHAPE,)
+        generator.next()
+        generator.next()
+else:
+    pass
 print("We are Done")
