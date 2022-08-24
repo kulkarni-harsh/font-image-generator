@@ -39,7 +39,6 @@ def center_text(img, font, text, color='black'):
     return img
 
 for char in COMBINED:
-    count=0
     os.mkdir(f'dataset/{char}')
     for font_path in font_paths:
         font_name=font_path.split('/')[-1][:-4]
@@ -47,7 +46,6 @@ for char in COMBINED:
         font_style = ImageFont.truetype(font_path, FONT_SIZE)
         base_image=center_text(base_image,font_style,char)
         base_image.save(f'dataset/{char}/{font_name}.png')
-        count+=1
         
 
 ## Adding Augmented Images
